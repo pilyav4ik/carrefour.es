@@ -1,7 +1,6 @@
-#Author: freeautomationlearning@gmail.com
 Feature: Google Search
 
-	@web
+	@skip
   Scenario Template: Validate google search text field
     Given I open a browser
     When I navigate to <web> page
