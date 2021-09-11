@@ -2,8 +2,13 @@ package stepdefinations;
 
 
 import io.cucumber.java.en.*;
+import javafx.scene.input.MouseButton;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 import utility.Hook;
 
 public class BasePageDefinition {
@@ -53,6 +58,13 @@ public class BasePageDefinition {
     @And("click submit button with text {string}")
     public void clickSubmitButtonByValue(String value){
         driver.findElement(By.xpath("//input[@value='"+value+"']")).click();
+    }
+
+    @And("click web element with tag {string} and text {string}")
+    public void clickToText(String tagName, String text){
+        driver.findElement(By.xpath("//"+tagName+"[contains(text(),'"+text+"')]"))
+        .click();
+
     }
 
 }
