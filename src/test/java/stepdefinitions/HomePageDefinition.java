@@ -1,11 +1,8 @@
-package stepdefinations;
-
-import java.util.concurrent.TimeUnit;
+package stepdefinitions;
 
 import io.cucumber.java.en.Then;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-
 import utility.Hook;
 
 public class HomePageDefinition {

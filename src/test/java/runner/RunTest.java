@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 // @RunWith(Cucumber.class)
 
 @CucumberOptions(features={"src//test//java//features"}
-					,glue={"stepdefinations","utility"}
+					,glue={"stepdefinitions","utility"}
 					,plugin = {"pretty", "html:target/cucumber"}
 //If you need run only negative test cases change tag to "@web and @negative"
 					,tags ="@web"
