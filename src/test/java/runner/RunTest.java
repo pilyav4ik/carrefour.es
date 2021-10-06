@@ -13,9 +13,7 @@ import org.testng.annotations.Test;
 @CucumberOptions(features={"src//test//java//features"}
 		,glue={"stepdefinitions","utility"}
 		,plugin = {"pretty", "html:target/cucumber"}
-//If you need run only negative test cases change tag to "@web and @negative"
-		,tags ="@web"
-)
+		,monochrome = true)
 @Test
 public class RunTest extends AbstractTestNGCucumberTests {
 
