@@ -40,12 +40,18 @@ public class BasePageDefinition {
 
     @And("click link with text {string}")
     public void i_click_to_link_with_link_text(String arg0){
+        System.out.println("/n ----------------------------"+driver.getCurrentUrl()+" ---------------------------- /n");
         driver.findElement(By.xpath("//a[contains(text(),'"+arg0+"')]")).click();
     }
 
     @And("click link with title {string}")
     public void i_click_to_link_with_title_text(String arg0) {
         driver.findElement(By.xpath("//a[@title='"+arg0+"']")).click();
+    }
+
+    @And("click link with arial-label {string}")
+    public void clickLinkWithArialLabel(String arialLabel){
+        driver.findElement(By.xpath("//a[@aria-label='"+arialLabel+"']")).click();
     }
 
     @And("click link with {string} two")
@@ -57,6 +63,11 @@ public class BasePageDefinition {
     @And("text with {string} visible")
     public void textVisible(String text){
         driver.findElement(By.xpath("//*[contains(text(),'"+text+"')]")).isDisplayed();
+    }
+
+    @And("link with text {string} visible")
+    public void linkWithTextVisible(String text){
+        driver.findElement(By.xpath("//a[contains(text(),'"+text+"')]")).isDisplayed();
     }
 
     @When("set e-mail with {string} to text field for email")
@@ -77,6 +88,12 @@ public class BasePageDefinition {
     @When("click button with text {string}")
     public void clickButtonByText(String text){
         driver.findElement(By.xpath("//button[contains(text(),'"+text+"')]")).click();
+        String currentUrl = driver.getCurrentUrl();
+        System.out.println(currentUrl);
+
+        if (currentUrl.startsWith("https://www.carrefour.es/bodega")){
+            driver.navigate().back();
+        }
     }
 
     @When("click button with value {string}")
@@ -96,24 +113,30 @@ public class BasePageDefinition {
     }
 
 
-    @When("click to cart button")
+
+    @And("click cart button")
     public void clickCartButton(){
-        driver.findElement(By.xpath("//div[@class='cart-header__container']//a")).click();
-        if (!driver.getCurrentUrl().equals("https://www.carrefour.es/supermercado/MiCarrito")){
-            driver.get("https://www.carrefour.es/supermercado/MiCarrito");
-        }
+        driver.findElement(By.cssSelector("div.cart-header__container > a")).click();
+
+
+
     }
 
+    @Then("price for product is {string}")
+    public void productPriceInCart(String price) {
+        driver.findElement(By.xpath("//p[contains(text(),'"+price+"')]")).getText();
+    }
 
     @When("total price in cart is {string}")
     public void total_price_in_cart_is(String price) {
-
-        driver.findElement(By.xpath("//span[contains(text(),'"+price+"')]")).getText();
+        System.out.println(driver.getCurrentUrl());
+        String e = driver.findElement(By.xpath("//p[@class='price price-big']")).getText();
+        System.out.println(e);
     }
 
     @And("cart count is {double}")
     public void cartCount(Double count){
-        String countSt = driver.findElement(By.className("cart-header__count")).getText();
+        String countSt = driver.findElement(By.cssSelector(".cart-header__count")).getText();
         System.out.println(countSt);
     }
 
@@ -122,9 +145,9 @@ public class BasePageDefinition {
         driver.findElement(By.xpath("//a[contains(text(),'"+productName+"')]")).isDisplayed();
     }
 
-    @And("product quantity is {string}")
+    @And("product quantity in cart is {string}")
     public void productQuantity(String quantity){
-        Select select = new Select(driver.findElement(By.xpath("//select[@id='select-unidades-ci45967010583']")));
+        Select select = new Select(driver.findElement(By.xpath("//select")));
         WebElement option = select.getFirstSelectedOption();
         String selectedOption = option.getText();
         Assert.assertEquals(quantity, selectedOption);
